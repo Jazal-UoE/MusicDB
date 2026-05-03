@@ -1,0 +1,21 @@
+beautifulsoup4==4.14.3
+certifi==2026.4.22
+charset-normalizer==3.4.7
+fuzzywuzzy==0.18.0
+html5lib==1.1
+idna==3.13
+iniconfig==2.3.0
+numpy==2.4.4
+packaging==26.2
+pandas==3.0.2
+pluggy==1.6.0
+Pygments==2.20.0
+pytest==9.0.3
+python-dateutil==2.9.0.post0
+requests==2.33.1
+six==1.17.0
+soupsieve==2.8.3
+typing_extensions==4.15.0
+urllib3==2.6.3
+webencodings==0.5.1
+-e git+ssh://git@github.com/Jazal-UoE/MusicDB.git@ac63e5fb2d3dd8779aeeb53f8a5fd340ff09903c#egg=wikiscraper

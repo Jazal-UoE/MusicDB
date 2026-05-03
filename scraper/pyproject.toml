@@ -1,0 +1,21 @@
+[project]
+name = "wikiscraper"    # This is the name used for 'pip install'
+version = "0.1.0"
+requires-python=">=3.12"
+dependencies = [
+    "pandas",
+    "beautifulsoup4",
+    "pytest",
+    "html5lib>=1.1",
+    "requests>=2.32.5",
+    "numpy>=2.4.3",
+    "fuzzywuzzy>=0.18.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+# This tells Python: "Look in 'src' to find the 'wikiscraper' package"

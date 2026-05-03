@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: wikiscraper
+Version: 0.1.0
+Requires-Python: >=3.12
+Requires-Dist: pandas
+Requires-Dist: beautifulsoup4
+Requires-Dist: pytest
+Requires-Dist: html5lib>=1.1
+Requires-Dist: requests>=2.32.5
+Requires-Dist: numpy>=2.4.3
+Requires-Dist: fuzzywuzzy>=0.18.0

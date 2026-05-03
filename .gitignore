@@ -1,0 +1,22 @@
+# API
+#
+api/db.sqlite3
+api/**/__pycache__/
+api/venv/
+api/.env 
+api/backend/
+api/backend/data/
+
+# Frontend 
+#
+frontend/node_modules/
+frontend/build/
+frontend/.env.local
+frontend/.env.production
+#MusicDB 
+#
+MusicDB/venv 
+MusicDB/.env 
+MusicDB/src/wikiscraper.egg-info
+
+
