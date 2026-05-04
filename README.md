@@ -1,6 +1,6 @@
 ![MusicDB Banner](./images/🎧MusicDB_banner.png)
 
-### Enhancing Music Discovery with Rich Metadata & Content-Based Recommendations
+### Enhancing Content-Based Music Recommendation Systems for Middle Eastern Music
 ![GitHub last commit](https://img.shields.io/github/last-commit/Jazal-UoE/MusicDB)
 
 ------------------------------------------------------------------------
