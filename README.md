@@ -31,9 +31,9 @@ dataset - Powers a content-based recommendation system
 
 ## 🧠 Key Features
 
--   Metadata enrichment beyond traditional datasets\
--   Advanced data cleaning (fuzzy matching, NLP)\
--   Content-based recommendation engine\
+-   Metadata enrichment beyond traditional datasets
+-   Advanced data cleaning (fuzzy matching, NLP)
+-   Content-based recommendation engine
 -   Full-stack web platform (Django + React)
 
 ------------------------------------------------------------------------
@@ -56,6 +56,33 @@ dataset - Powers a content-based recommendation system
     pip install -e .
     python cli.py
 
+### Backend(Django API)
+    cd api
+    
+    # create virtual environment (optional but recommended)
+    python -m venv venv
+    source venv/bin/activate   # Mac/Linux
+    # venv\Scripts\activate    # Windows
+    
+    # install dependencies
+    pip install -r requirements.txt
+    
+    # apply migrations
+    python manage.py migrate
+    
+    # run server
+    python manage.py runserver
+The API will be available at http://localhost:8000
+
+### Frontend(React)
+    cd frontend
+    
+    # install dependencies
+    npm install
+    
+    # start development server
+    npm start
+The frontend will be available at http://localhost:3000
 ------------------------------------------------------------------------
 
 ## 🌐 Stack
