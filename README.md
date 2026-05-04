@@ -5,7 +5,7 @@
 
 ------------------------------------------------------------------------
 
-## 🚀 Overview
+## Overview
 
 MusicDB is a full-stack music data platform designed to solve a critical
 problem in modern music recommendation systems:
@@ -20,7 +20,7 @@ on user interaction data
 
 ------------------------------------------------------------------------
 
-## 💡 The Idea
+## The Idea
 
 MusicDB uses Wikipedia as a large-scale source of music metadata.
 
@@ -32,7 +32,7 @@ This project:
 
 ------------------------------------------------------------------------
 
-## 🧠 Key Features
+## Key Features
 
 -   Metadata enrichment beyond traditional datasets
 -   Advanced data cleaning (fuzzy matching, NLP)
@@ -41,7 +41,7 @@ This project:
 
 ------------------------------------------------------------------------
 
-## 🏗️ Project Structure
+## Project Structure
 
     MusicDB/
     ├── api/                # Django backend
@@ -89,7 +89,7 @@ The frontend will be available at http://localhost:3000
 
 ------------------------------------------------------------------------
 
-## 🌐 Stack
+## Stack
 
 -   Backend: Django, DRF
 -   Frontend: React
@@ -106,5 +106,5 @@ Music
 
 ## 👤 Author
 
-Jazal Saleem\
+Jazal Saleem
 University of Edinburgh
