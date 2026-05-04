@@ -10,11 +10,11 @@
 MusicDB is a full-stack music data platform designed to solve a critical
 problem in modern music recommendation systems:
 
-**Lack of rich metadata --- especially for underrepresented regions like
+**Lack of rich metadata - especially for underrepresented regions like
 the Middle East.**
 
-Most platforms rely heavily on collaborative filtering, which: - Depends
-on user interaction data
+Most platforms rely heavily on collaborative filtering, which: 
+- Depends on user interaction data
 - Struggles with new or niche music
 - Biases toward already popular artists
 
