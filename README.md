@@ -102,7 +102,7 @@ The frontend will be available at http://localhost:3000
 Enhancing Content-Based Music Recommendation Systems for Middle Eastern
 Music
 
-[Read my thesis](./MusicDB_Thesis.pdf)
+[Read my thesis](./docs/MusicDB_Thesis.pdf)
 
 ------------------------------------------------------------------------
 
