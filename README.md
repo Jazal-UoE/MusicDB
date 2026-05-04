@@ -1,4 +1,4 @@
-# 🎵 MusicDB
+![MusicDB Banner](./images/🎧MusicDB_banner.png)
 
 ### Enhancing Music Discovery with Rich Metadata & Content-Based Recommendations
 
