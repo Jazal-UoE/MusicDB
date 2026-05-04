@@ -25,8 +25,8 @@ on user interaction data
 MusicDB uses Wikipedia as a large-scale source of music metadata.
 
 This project: 
-1. Scrapes music metadata (composer, lyricist, etc.) from artist discography pages schema matching html tables and extracting their metadata
-2. Cleans and standardises the inconsistent data using entity matching and cleaning heuristics
+1. Scrapes music metadata (composer, lyricist, etc.) from artist discography pages by matching html tables to user defined schemas and extracting their metadata.
+2. Cleans and standardises the inconsistent data using entity matching and cleaning heuristics.
 3. Builds a complete SQL dataset which can then be used by the Django Backend to serve general data queries, contributor statistics per artist and content-based recommendations.
 4. Uses a React Frontend to visualise the data, including dynamically generating interactive contributor graphs for each artist page. 
 
