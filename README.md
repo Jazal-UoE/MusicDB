@@ -14,8 +14,8 @@ problem in modern music recommendation systems:
 the Middle East.**
 
 Most platforms rely heavily on collaborative filtering, which: - Depends
-on user interaction data\
-- Struggles with new or niche music\
+on user interaction data
+- Struggles with new or niche music
 - Biases toward already popular artists
 
 ------------------------------------------------------------------------
@@ -88,8 +88,8 @@ The frontend will be available at http://localhost:3000
 
 ## 🌐 Stack
 
--   Backend: Django, DRF\
--   Frontend: React\
+-   Backend: Django, DRF
+-   Frontend: React
 -   Data: Pandas, NLP, Cosine Similarity
 
 ------------------------------------------------------------------------
