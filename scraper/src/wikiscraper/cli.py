@@ -22,8 +22,11 @@ def main():
 
         iranian_artists_filepath = "data/artists_ir.json"
         artists = load_artists(iranian_artists_filepath)
+
         processed_tables = []
-        for artist in artists:
+        for i, artist in enumerate(artists):
+            if i == 1:
+                break
             parser = Parser(language_strategy, artist)
             normaliser = Normaliser(language_strategy, artist)
 
@@ -32,8 +35,13 @@ def main():
 
             processed_tables.extend(normalised_tables)
 
+        # for table in processed_tables:
+        #     print(table)
         cleaner = Cleaner(strategy=language_strategy)
-        cleaner.clean_tables(processed_tables)
+        cleaned_tables = cleaner.clean_tables(processed_tables)
+
+        for table in cleaned_tables:
+            print(table)
     except ValueError as e:
         print(f"error: {e}")
         sys.exit(1)
