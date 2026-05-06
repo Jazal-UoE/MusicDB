@@ -3,6 +3,10 @@ from wikiscraper.language.language_factory import get_language_strategy
 from wikiscraper.parsing import Parser
 from wikiscraper.normalise import Normaliser
 from wikiscraper.models.artist import Artist
+from wikiscraper.cleaner import Cleaner
+
+import json
+from pathlib import Path
 
 REQUIRED_ARGS_COUNT = 2
 
@@ -16,22 +20,24 @@ def main():
         country_selected = sys.argv[1]
         language_strategy = get_language_strategy(country_selected)
 
-        artist = Artist(
-            name="Ebi",
-            url="https://fa.wikipedia.org/wiki/%D8%AA%D8%B1%D8%A7%D9%86%D9%87%E2%80%8C%D8%B4%D9%86%D8%A7%D8%B3%DB%8C_%D8%A7%D8%A8%DB%8C",
-        )
+        artists = load_artists()
+        processed_tables = []
+        for artist in artists:
+            parser = Parser(language_strategy, artist)
+            normaliser = Normaliser(language_strategy, artist)
 
-        parser = Parser(language_strategy, artist)
-        normaliser = Normaliser(language_strategy, artist)
+            raw_tables = parser.get_metadata_tables()
+            normalised_tables = normaliser.normalise_tables(raw_tables)
 
-        metadata_tables = parser.get_metadata_tables()
-        print(f"len: {len(metadata_tables)}")
+            processed_tables.extend(normalised_tables)
 
-        normalised_tables = normaliser.normalise_tables(metadata_tables)
-
-        print(normalised_tables[0])
+        cleaner = Cleaner(strategy=language_strategy)
+        cleaner.clean_tables(processed_tables)
     except ValueError as e:
         print(f"error: {e}")
+        sys.exit(1)
+    except FileNotFoundError as e:
+        print(f"Error: '{e.filename}' not found.")
         sys.exit(1)
 
     except Exception as e:
@@ -41,6 +47,13 @@ def main():
 
 def print_usage():
     print("USAGE: cli.py <IRAN|INDIA|TURKEY|EGYPT")
+
+
+def load_artists(file_path="data/artists.json"):
+    path = Path(file_path)
+    with open(path, "r", encoding="utf-8") as f:
+        raw_data = json.load(f)
+    return [Artist(**entry) for entry in raw_data]
 
 
 if __name__ == "__main__":
