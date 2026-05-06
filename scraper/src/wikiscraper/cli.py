@@ -20,7 +20,8 @@ def main():
         country_selected = sys.argv[1]
         language_strategy = get_language_strategy(country_selected)
 
-        artists = load_artists()
+        iranian_artists_filepath = "data/artists_ir.json"
+        artists = load_artists(iranian_artists_filepath)
         processed_tables = []
         for artist in artists:
             parser = Parser(language_strategy, artist)
@@ -49,7 +50,7 @@ def print_usage():
     print("USAGE: cli.py <IRAN|INDIA|TURKEY|EGYPT")
 
 
-def load_artists(file_path="data/artists.json"):
+def load_artists(file_path: str):
     path = Path(file_path)
     with open(path, "r", encoding="utf-8") as f:
         raw_data = json.load(f)
