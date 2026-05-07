@@ -1,4 +1,3 @@
-from typing import Optional
 import pandas as pd
 from bs4 import Tag
 from io import StringIO
@@ -9,10 +8,7 @@ def testTable():
     print("we working")
 
 
-def table_to_dataframe(table: Optional[Tag]) -> DataFrame:
-    if table is None:
-        return DataFrame()
-
+def table_to_dataframe(table: Tag) -> DataFrame:
     try:
         return extract_first_table(table)
 

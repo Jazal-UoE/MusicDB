@@ -28,7 +28,7 @@ class Normaliser:
         return normalised_with_artist_col
 
     def _normalise_table(self, table: DataFrame) -> DataFrame:
-        normalised_df = DataFrame()
+        normalised_df = DataFrame(index=table.index)
         column_mapping = self._match_columns(table)
         for key, value in column_mapping.items():
             if value is not None:
@@ -56,7 +56,7 @@ class Normaliser:
         if not artist_name:
             raise ValueError("Artist name cannot be none or empty")
         table = table.copy()
-        table.insert(1, "artist", [artist_name] * len(table))
+        table.insert(1, "artist", artist_name)
         return table
 
 

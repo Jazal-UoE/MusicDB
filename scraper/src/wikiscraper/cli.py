@@ -27,7 +27,7 @@ def main():
             parser = Parser(language_strategy, artist)
             normaliser = Normaliser(language_strategy, artist)
 
-            raw_tables = parser.get_metadata_tables()
+            raw_tables = parser.get_metadata_tables(artist.url)
             normalised_tables = normaliser.normalise_tables(raw_tables)
 
             processed_tables.extend(normalised_tables)

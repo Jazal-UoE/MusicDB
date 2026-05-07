@@ -19,21 +19,24 @@ def parser():
 
 def test_is_metadata_table_empty(parser):
     df = DataFrame()
-    assert not parser._is_metadata_table(df)
+    song_keyword = parser.strategy.song_keyword
+    assert not parser._is_song_table(df, song_keyword)
 
 
 def test_is_metadata_table_valid_and_present(parser):
     data = {"ترانه": ["Song1", "Song2"], "Composer": ["Composer1", "Composer2"]}
     df = DataFrame(data)
 
-    assert parser._is_metadata_table(df)
+    song_keyword = parser.strategy.song_keyword
+    assert parser._is_song_table(df, song_keyword)
 
 
 def test_is_metadata_table_valid_and_not_present(parser):
     data = {"SongColumn": ["Song1", "Song2"], "Composer": ["Composer1", "Composer2"]}
     df = DataFrame(data)
 
-    assert not parser._is_metadata_table(df)
+    song_keyword = parser.strategy.song_keyword
+    assert not parser._is_song_table(df, song_keyword)
 
 
 def test_find_all_metadata_tables(parser):
