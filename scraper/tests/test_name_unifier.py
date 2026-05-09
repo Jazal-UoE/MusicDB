@@ -12,30 +12,44 @@ def test_single_name_no_change():
 
 
 def test_simple_fuzzy_match():
-    df = pd.DataFrame({"composer": ["A R Rahman", "A. R. Rahman"]})
+    # WRAP IN LISTS: This is how the data looks after Cleaner
+    df = pd.DataFrame({"composer": [["A R Rahman"], ["A. R. Rahman"]]})
 
     unifier = NameUnifier(columns=["composer"], threshold=90)
     result = unifier.unify(df)
 
-    values = set(result["composer"].tolist())
+    # result["composer"] is now a Series of lists: [["A. R. Rahman"], ["A. R. Rahman"]]
+    # We flatten them to check unique names
+    flattened = set([name for sublist in result["composer"] for name in sublist])
 
-    # Both should map to same canonical (longest)
-    assert len(values) == 1
-    assert "A. R. Rahman" in values
+    assert len(flattened) == 1
+    assert "A. R. Rahman" in flattened
 
 
 def test_multiple_names_in_cell():
-    df = pd.DataFrame({"composer": ["A R Rahman, Gulzar"]})
+    # DATA IS A LIST
+    df = pd.DataFrame({"composer": [["A R Rahman", "Gulzar"]]})
 
     unifier = NameUnifier(columns=["composer"], threshold=90)
-
-    # Force mapping manually for clarity
     unifier.name_mapping = {"A R Rahman": "A. R. Rahman", "Gulzar": "Gulzar"}
 
     result = df.copy()
     result["composer"] = result["composer"].apply(unifier._apply_mapping_to_cell)
 
-    assert result["composer"].iloc[0] == "A. R. Rahman, Gulzar"
+    # EXPECT A LIST
+    assert result["composer"].iloc[0] == ["A. R. Rahman", "Gulzar"]
+
+
+def test_mapping_consistency():
+    # WRAP IN LISTS
+    df = pd.DataFrame({"composer": [["AR Rahman"], ["A R Rahman"], ["A. R. Rahman"]]})
+
+    unifier = NameUnifier(columns=["composer"])
+    result = unifier.unify(df)
+
+    # Flatten and check unique
+    flattened = set([name for sublist in result["composer"] for name in sublist])
+    assert len(flattened) == 1
 
 
 def test_missing_column_ignored():
@@ -70,22 +84,10 @@ def test_threshold_prevents_wrong_merge():
 
 
 def test_duplicate_names_in_cell():
-    df = pd.DataFrame({"composer": ["A R Rahman, A. R. Rahman"]})
+    df = pd.DataFrame({"composer": [["A R Rahman", "A. R. Rahman"]]})
 
     unifier = NameUnifier(columns=["composer"])
     result = unifier.unify(df)
 
     # Both should unify to same canonical
-    assert result["composer"].iloc[0] == "A. R. Rahman, A. R. Rahman"
-
-
-def test_mapping_consistency():
-    df = pd.DataFrame({"composer": ["AR Rahman", "A R Rahman", "A. R. Rahman"]})
-
-    unifier = NameUnifier(columns=["composer"])
-    result = unifier.unify(df)
-
-    values = result["composer"].unique()
-
-    # All rows should map to same canonical
-    assert len(values) == 1
+    assert result["composer"].iloc[0] == ["A. R. Rahman", "A. R. Rahman"]

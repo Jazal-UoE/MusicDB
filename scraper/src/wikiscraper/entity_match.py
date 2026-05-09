@@ -1,7 +1,6 @@
-from typing import List, Dict, Set
+from typing import List, Dict, Set, Tuple, Any
 from pandas import DataFrame
 from fuzzywuzzy import process, fuzz
-import pandas as pd
 
 
 class NameUnifier:
@@ -29,11 +28,9 @@ class NameUnifier:
             if column not in df.columns:
                 continue
 
-            df[column].dropna().apply(
-                lambda x: all_names.update(
-                    name.strip() for name in str(x).split(",") if name.strip()
-                )
-            )
+            for cell in df[column].dropna():
+                if isinstance(cell, list):
+                    all_names.update(str(name).strip() for name in cell if name)
 
         return all_names
 
@@ -45,10 +42,15 @@ class NameUnifier:
             if name in processed:
                 continue
 
-            matches = process.extract(name, all_names, scorer=fuzz.token_sort_ratio)
+            matches = process.extract(
+                name, list(all_names), scorer=fuzz.token_sort_ratio
+            )
 
             # Filter by threshold
-            similar = [match for match, score in matches if score >= self.threshold]
+            similar = []
+            for match, score in matches:
+                if score >= self.threshold:
+                    similar.append(match)
 
             # Choose canonical name (longest string)
             canonical = max(similar, key=len)
@@ -59,16 +61,12 @@ class NameUnifier:
 
         return mapping
 
-    def _apply_mapping_to_cell(self, value: str) -> str:
-        if not isinstance(value, str):
+    def _apply_mapping_to_cell(self, value) -> list:
+        if not isinstance(value, list):
             return value
 
-        names = value.split(",")
-
         unified = []
-        for name in names:
-            cleaned = name.strip()
-            mapped = self.name_mapping.get(cleaned, cleaned)
-            unified.append(mapped)
-
-        return ", ".join(unified)
+        for name in value:
+            if isinstance(name, str):
+                unified.append(self.name_mapping.get(name, name))
+        return unified

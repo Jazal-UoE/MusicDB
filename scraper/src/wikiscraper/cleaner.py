@@ -33,7 +33,7 @@ class Cleaner:
         table = self.split_people_to_list(
             table, columns, self.strategy.song_split_pattern
         )
-        table = self.clean_names(table, columns)
+        table = self.clean_entity_names(table, columns)
         table = self.strategy.language_specific_cleaning(table)
         table = self.strip_whitespace(table)
         return table
