@@ -1,7 +1,8 @@
 from typing import List
 from abc import ABC, abstractmethod
 from pandas import DataFrame
-
+import re
+from re import Pattern
 from wikiscraper.language.base import LanguageDataStrategy
 
 
@@ -22,3 +23,7 @@ class PersianLanguageStrategy(LanguageDataStrategy):
     @property
     def people_columns(self) -> list:
         return ["composer", "song_writer", "tuning"]
+
+    @property
+    def song_split_pattern(self) -> Pattern:
+        return re.compile(r"\s*/\s*|\s*،\s*|\s*,\s*|\s+و\s+", re.IGNORECASE)

@@ -27,7 +27,7 @@ class Cleaner:
         table = self.remove_duplicates(table)
         table = self.remove_empty_song_name(table)
         table = self.clean_song_names(table)
-        table = self.split_multiple_songs(table)
+        table = self.split_multiple_songs(table, self.strategy.song_split_pattern)
 
         columns = self.strategy.people_columns
         table = self.split_people_to_list(table, columns)
@@ -98,7 +98,9 @@ class Cleaner:
 
         return df.map(clean_value)
 
-    def split_multiple_songs(self, df: DataFrame) -> DataFrame:
+    def split_multiple_songs(
+        self, df: DataFrame, split_pattern: re.Pattern
+    ) -> DataFrame:
         if "song_name" not in df.columns:
             raise ValueError("DataFrame must contain song_name column")
 
@@ -110,7 +112,7 @@ class Cleaner:
                 rows.append(row.to_dict())
                 continue
 
-            songs = SPLIT_PATTERN.split(song_val)
+            songs = split_pattern.split(song_val)
             split_songs = []
             for s in songs:
                 if s.strip():

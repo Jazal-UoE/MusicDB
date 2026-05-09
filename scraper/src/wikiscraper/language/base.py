@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from re import Pattern
 
 from pandas import DataFrame
 
@@ -17,4 +18,9 @@ class LanguageDataStrategy(ABC):
     @property
     @abstractmethod
     def people_columns(self) -> list:
+        pass
+
+    @property
+    @abstractmethod
+    def song_split_pattern(self) -> Pattern:
         pass
