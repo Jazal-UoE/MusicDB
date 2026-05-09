@@ -24,3 +24,7 @@ class LanguageDataStrategy(ABC):
     @abstractmethod
     def song_split_pattern(self) -> Pattern:
         pass
+
+    @abstractmethod
+    def language_specific_cleaning(self, df: DataFrame) -> DataFrame:
+        pass

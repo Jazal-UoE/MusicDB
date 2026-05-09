@@ -91,7 +91,7 @@ def test_clean_table_integration(cleaner):
 
     assert len(result) == 1
     assert result.iloc[0]["song_name"] == "Yesterday"
-    assert result.iloc[0]["year"] == "2020"
+    assert result.iloc[0]["year"] == "۲۰۲۰"
 
 
 def test_missing_column_error(cleaner):
@@ -110,7 +110,7 @@ def test_split_multiple_songs(cleaner):
         }
     )
 
-    result = cleaner.split_multiple_songs(df)
+    result = cleaner.split_multiple_songs(df, cleaner.strategy.song_split_pattern)
 
     assert len(result) == 2
 
@@ -131,14 +131,37 @@ def test_split_people_to_list(cleaner):
     df = pd.DataFrame(
         {
             "song_name": ["Song 1"],
-            "artist": ["Artist A & Artist B"],
-            "composer": ["Comp 1, Comp 2 and Comp 3"],
-            "lyricist": ["Only One Writer"],
+            "composer": ["استاد ۱، استاد ۲ و استاد ۳"],  # Persian comma and 'و'
+            "lyricist": ["فقط یک نفر"],
         }
     )
 
-    result = cleaner.split_people_to_list(df, cleaner.strategy.people_columns)
+    result = cleaner.split_people_to_list(
+        df, cleaner.strategy.people_columns, cleaner.strategy.song_split_pattern
+    )
 
-    assert result.loc[0, "composer"] == ["Comp 1", "Comp 2", "Comp 3"]
-
+    # Note: Ensure the spaces match your strip() logic
+    assert result.loc[0, "composer"] == ["استاد ۱", "استاد ۲", "استاد ۳"]
     assert isinstance(result.loc[0, "composer"], list)
+
+
+def test_persian_normalization(cleaner):
+    # 1. Original DF (Two rows)
+    df = pd.DataFrame(
+        {
+            "song_name": ["آهنگ قديمي", "موسيقي كلاسيك"],  # Length 2
+            "composer": ["علي كاف", "رضا كوهي"],  # Length 2 (Added a second name)
+        }
+    )
+
+    # 2. Expected DF (Must also be Length 2)
+    expected = pd.DataFrame(
+        {
+            "song_name": ["آهنگ قدیمی", "موسیقی کلاسیک"],  # Length 2
+            "composer": ["علی کاف", "رضا کوهی"],  # Length 2
+        }
+    )
+
+    result = cleaner.strategy.language_specific_cleaning(df)
+
+    assert_frame_equal(result, expected)

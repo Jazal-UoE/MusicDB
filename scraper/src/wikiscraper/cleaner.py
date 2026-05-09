@@ -30,7 +30,11 @@ class Cleaner:
         table = self.split_multiple_songs(table, self.strategy.song_split_pattern)
 
         columns = self.strategy.people_columns
-        table = self.split_people_to_list(table, columns)
+        table = self.split_people_to_list(
+            table, columns, self.strategy.song_split_pattern
+        )
+        table = self.clean_names(table, columns)
+        table = self.strategy.language_specific_cleaning(table)
         table = self.strip_whitespace(table)
         return table
 
@@ -129,14 +133,16 @@ class Cleaner:
 
         return pd.DataFrame(rows)
 
-    def split_people_to_list(self, df: DataFrame, columns: List[str]) -> DataFrame:
+    def split_people_to_list(
+        self, df: DataFrame, columns: List[str], split_pattern: re.Pattern
+    ) -> DataFrame:
         df = df.copy()
 
         def split_val(val):
             if not isinstance(val, str):
                 return val
 
-            parts = SPLIT_PATTERN.split(val)
+            parts = split_pattern.split(val)
             list_vals = []
             for p in parts:
                 if p.strip():
@@ -147,4 +153,18 @@ class Cleaner:
             if col in df.columns:
                 df[col] = df[col].apply(split_val)
 
+        return df
+
+    def clean_entity_names(self, df: DataFrame, columns: List[str]) -> DataFrame:
+        def clean_entity_name(name):
+            if not isinstance(name, str):
+                return name
+            name = re.sub(r"\(.*?\)", "", name)  # Remove parens
+            name = re.sub(r"\{.*?\}", "", name)  # Remove curly brackets
+
+            name = re.sub(r"[-–]", " ", name)  # Hyphens to spaces
+
+        for col in columns:
+            if col in df.columns:
+                df[col] = df[col].apply(clean_entity_name)
         return df
