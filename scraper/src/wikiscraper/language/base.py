@@ -7,6 +7,11 @@ from pandas import DataFrame
 class LanguageDataStrategy(ABC):
     @property
     @abstractmethod
+    def key(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
     def song_keyword(self) -> str:
         pass
 

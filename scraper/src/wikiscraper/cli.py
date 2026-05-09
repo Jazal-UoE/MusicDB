@@ -1,10 +1,14 @@
 import sys
+from typing import final
+
+from fuzzywuzzy import process
+from wikiscraper.entity_match import NameUnifier
 from wikiscraper.language.language_factory import get_language_strategy
 from wikiscraper.parsing import Parser
 from wikiscraper.normalise import Normaliser
 from wikiscraper.models.artist import Artist
 from wikiscraper.cleaner import Cleaner
-
+import pandas as pd
 import json
 from pathlib import Path
 
@@ -33,7 +37,13 @@ def main():
             processed_tables.extend(normalised_tables)
 
         cleaner = Cleaner(strategy=language_strategy)
-        cleaner.clean_tables(processed_tables)
+        cleaned_tables = cleaner.clean_tables(processed_tables)
+        cleaned_joined_table = pd.concat(cleaned_tables, ignore_index=True)
+
+        unifier = NameUnifier(columns=language_strategy.people_columns, threshold=90)
+        final_df = unifier.unify(cleaned_joined_table)
+        write_df_to_csv(df=final_df, country=language_strategy.key)
+
     except ValueError as e:
         print(f"error: {e}")
         sys.exit(1)
@@ -55,6 +65,10 @@ def load_artists(file_path: str):
     with open(path, "r", encoding="utf-8") as f:
         raw_data = json.load(f)
     return [Artist(**entry) for entry in raw_data]
+
+
+def write_df_to_csv(df: pd.DataFrame, country: str):
+    df.to_csv(f"songs_{country}.csv", index=False, encoding="utf-8-sig")
 
 
 if __name__ == "__main__":

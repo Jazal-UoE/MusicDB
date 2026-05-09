@@ -9,6 +9,10 @@ from hazm import Normalizer, POSTagger, word_tokenize
 
 class PersianLanguageStrategy(LanguageDataStrategy):
     @property
+    def key(self) -> str:
+        return "ir"
+
+    @property
     def song_keyword(self) -> str:
         return "ترانه"
 
