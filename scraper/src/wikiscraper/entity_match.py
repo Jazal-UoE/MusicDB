@@ -68,5 +68,6 @@ class NameUnifier:
         unified = []
         for name in value:
             if isinstance(name, str):
-                unified.append(self.name_mapping.get(name, name))
+                cleaned = name.strip()
+                unified.append(self.name_mapping.get(cleaned, cleaned))
         return unified
